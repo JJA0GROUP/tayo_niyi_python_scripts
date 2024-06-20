@@ -14,9 +14,29 @@ def provision_follower_db(app_name, old_db_url, version=None):
     command = f"heroku addons:create heroku-postgresql:standard-0 --follow {old_db_url} --app {app_name}"
     if version:
         command += f" --version {version}"
-    result = run_command(command)
+    run_command(command)
+    # Wait for a short period to ensure the provisioning starts
+    time.sleep(60)
+    return get_follower_db_url(app_name, old_db_url)
+
+def get_follower_db_url(app_name, old_db_url):
+    command = f"heroku pg:info --app {app_name}"
+    output = run_command(command)
+
     # Extract the follower DB URL from the command output
-    follower_db_url = [line for line in result.split("\n") if "Attached as" in line][0].split(" ")[-1]
+    follower_db_url = None
+    databases = output.split("=== ")
+    for db in databases:
+        if "Following:" in db:
+            lines = db.split("\n")
+            for line in lines:
+                if "Following:" in line and old_db_url in line:
+                    follower_db_url = lines[0].strip().split()[0]
+                    break
+
+    if not follower_db_url:
+        print("Follower database URL not found.")
+        exit(1)
     return follower_db_url
 
 def enter_maintenance_mode(app_name):
@@ -46,7 +66,7 @@ def exit_maintenance_mode(app_name):
 
 def main():
     app_name = "example-app"
-    old_db_url = "HEROKU_POSTGRESQL_OLD_URL"
+    old_db_url = "HEROKU_POSTGRESQL_LAVENDER_URL"
     new_db_version = "13"  # Specify the desired version
 
     print("Provisioning a follower database...")
