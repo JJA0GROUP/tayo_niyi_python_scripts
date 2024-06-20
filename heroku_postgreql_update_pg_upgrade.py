@@ -42,9 +42,7 @@ def exit_maintenance_mode(app_name):
     command = f"heroku maintenance:off -a {app_name}"
     run_command(command)
 
-def deprovision_old_db(old_db_url, app_name):
-    command = f"heroku addons:destroy {old_db_url} --app {app_name} --confirm {app_name}"
-    run_command(command)
+
 
 def main():
     app_name = "example-app"
@@ -62,9 +60,6 @@ def main():
 
     print("Promoting the new database...")
     promote_new_db(follower_db_url, app_name)
-
-    print("Deprovisioning the old primary database...")
-    deprovision_old_db(old_db_url, app_name)
 
     print("Exiting maintenance mode...")
     exit_maintenance_mode(app_name)
