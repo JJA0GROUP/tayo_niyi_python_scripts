@@ -11,7 +11,7 @@ class CommandTimeout(Exception):
 
 #This a postgresql heroku db version update using pg:upgrade method
 #Before you run this script, please confirm your current db version and make sure the new version you want to upgrade to is
-#Greater (>) than your current postgress db version on Heroku
+#Greater (>) than your current postgress db version on Heroku. If you don't confirm these two things the script may not work as expected.
 def run_command(command, check_for=None, timeout=None):
     def target():
         process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
