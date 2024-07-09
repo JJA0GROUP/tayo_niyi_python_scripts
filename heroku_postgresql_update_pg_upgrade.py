@@ -89,6 +89,7 @@ def get_follower_db_url(app_name, old_db_url):
 def enter_maintenance_mode(app_name):
     command = f"heroku maintenance:on -a {app_name}"
     run_command(command)
+    time.sleep(300)
 
 def upgrade_follower_db(follower_db_url, app_name, version=None):
     command = f"heroku pg:upgrade {follower_db_url} --app {app_name} --confirm {app_name}"
@@ -117,11 +118,11 @@ def promote_new_db(follower_db_url, app_name):
         print(f"Command '{command}' timed out. Proceeding to the next step.")
 
 
-def unfollow_db(follower_db_url, app_name):
-    command = f"heroku pg:unfollow {follower_db_url} --app {app_name} --confirm {app_name}"
-    run_command(command)
-    #Wait for seven (7) minutes for the new db to unfollow old db properly
-    time.sleep(420)
+# def unfollow_db(follower_db_url, app_name):
+#     command = f"heroku pg:unfollow {follower_db_url} --app {app_name} --confirm {app_name}"
+#     run_command(command)
+#     #Wait for seven (7) minutes for the new db to unfollow old db properly
+#     time.sleep(420)
     
 
 def exit_maintenance_mode(app_name):
@@ -131,8 +132,8 @@ def exit_maintenance_mode(app_name):
 
 
 def main():
-    app_name = "APP_NAME"
-    old_db_url = "OLD_DB_ADDON_NAME"
+    app_name = "liveeasy"
+    old_db_url = "ADDON_NAME"
     current_db_version = "CURRENT_DB_VERSION" #Specify current db version. Please specify your current db version
     new_db_version = "NEW_DB_VERSION"  # Specify the desired version. Please make sure this version is greater than (>) current_db_version
 
@@ -145,8 +146,8 @@ def main():
     print("Upgrading the follower database...")
     upgrade_follower_db(follower_db_url, app_name, version=new_db_version)
 
-    print("Unfollowing leader database and making follower database writable...")
-    unfollow_db(follower_db_url, app_name)
+    # print("Unfollowing leader database and making follower database writable...")
+    # unfollow_db(follower_db_url, app_name)
 
     print("Promoting the new database...")
     promote_new_db(follower_db_url, app_name)
