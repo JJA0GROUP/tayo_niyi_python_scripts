@@ -10,6 +10,8 @@ class CommandTimeout(Exception):
     pass
 
 #This a postgresql heroku db version update using pg:upgrade method
+#Before you run this script, please confirm your current db version and make sure the new version you want to upgrade to is
+#Greater (>) than your current postgress db version on Heroku
 def run_command(command, check_for=None, timeout=None):
     def target():
         process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
@@ -88,8 +90,10 @@ def enter_maintenance_mode(app_name):
     command = f"heroku maintenance:on -a {app_name}"
     run_command(command)
 
-def upgrade_follower_db(follower_db_url, app_name):
+def upgrade_follower_db(follower_db_url, app_name, version=None):
     command = f"heroku pg:upgrade {follower_db_url} --app {app_name} --confirm {app_name}"
+    if version:
+        command += f" --version {version}"
     run_command(command)
     wait_for_db_upgrade(app_name)
 
@@ -128,17 +132,18 @@ def exit_maintenance_mode(app_name):
 
 def main():
     app_name = "APP_NAME"
-    old_db_url = "POSTGRESQL_ADD-ON_NAME"
-    new_db_version = "16"  # Specify the desired version
+    old_db_url = "OLD_DB_ADDON_NAME"
+    current_db_version = "CURRENT_DB_VERSION" #Specify current db version. Please specify your current db version
+    new_db_version = "NEW_DB_VERSION"  # Specify the desired version. Please make sure this version is greater than (>) current_db_version
 
     print("Provisioning a follower database...")
-    follower_db_url = provision_follower_db(app_name, old_db_url, version=new_db_version)
+    follower_db_url = provision_follower_db(app_name, old_db_url, version=current_db_version)
 
     print("Entering maintenance mode...")
     enter_maintenance_mode(app_name)
 
     print("Upgrading the follower database...")
-    upgrade_follower_db(follower_db_url, app_name)
+    upgrade_follower_db(follower_db_url, app_name, version=new_db_version)
 
     print("Unfollowing leader database and making follower database writable...")
     unfollow_db(follower_db_url, app_name)
