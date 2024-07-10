@@ -118,13 +118,6 @@ def promote_new_db(follower_db_url, app_name):
         print(f"Command '{command}' timed out. Proceeding to the next step.")
 
 
-# def unfollow_db(follower_db_url, app_name):
-#     command = f"heroku pg:unfollow {follower_db_url} --app {app_name} --confirm {app_name}"
-#     run_command(command)
-#     #Wait for seven (7) minutes for the new db to unfollow old db properly
-#     time.sleep(420)
-    
-
 def exit_maintenance_mode(app_name):
     command = f"heroku maintenance:off -a {app_name}"
     run_command(command)
@@ -146,9 +139,6 @@ def main():
     print("Upgrading the follower database...")
     upgrade_follower_db(follower_db_url, app_name, version=new_db_version)
 
-    # print("Unfollowing leader database and making follower database writable...")
-    # unfollow_db(follower_db_url, app_name)
-
     print("Promoting the new database...")
     promote_new_db(follower_db_url, app_name)
 
@@ -156,12 +146,9 @@ def main():
     exit_maintenance_mode(app_name)
 
     print("Database upgrade completed successfully.")
-    # Simulate Ctrl+C to stop the script
-    os.kill(os.getpid(), signal.SIGINT)
+    
+    print("Hey, Niyi, I am done at this point actually")
+
 
 if __name__ == "__main__":
-    try:
-        main()
-    except KeyboardInterrupt:
-        print("Script execution interrupted. Exiting now.")
-        sys.exit(0)
+    main()
