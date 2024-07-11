@@ -113,7 +113,7 @@ def wait_for_db_provision(app_name):
 def promote_new_db(follower_db_url, app_name):
     command = f"heroku pg:promote {follower_db_url} --app {app_name}"
     try:
-        run_command(command, check_for="Checking release phase...", timeout=180)
+        run_command(command, check_for="Checking release phase...", timeout=300)
     except CommandTimeout:
         print(f"Command '{command}' timed out. Proceeding to the next step.")
 
