@@ -125,10 +125,11 @@ def exit_maintenance_mode(app_name):
 
 
 def main():
-    app_name = "liveeasy"
-    old_db_url = "ADDON_NAME"
-    current_db_version = "CURRENT_DB_VERSION" #Specify current db version. Please specify your current db version
-    new_db_version = "NEW_DB_VERSION"  # Specify the desired version. Please make sure this version is greater than (>) current_db_version
+    print("\nPlease type in the heroku redis details below:")
+    app_name = input("App Name: ") #Heroku App Name e.g Staging 1
+    old_db_url = input("Old DB Add On Name: ") # Heroku Old DB Add on Name e.g beautiful_moose
+    current_db_version = input("Current DB Version: ") #Specify current db version. Please specify your current db version
+    new_db_version = input("New DB Version: ") # Specify the desired version. Please make sure this version is greater than (>) current_db_version
 
     print("Provisioning a follower database...")
     follower_db_url = provision_follower_db(app_name, old_db_url, version=current_db_version)
