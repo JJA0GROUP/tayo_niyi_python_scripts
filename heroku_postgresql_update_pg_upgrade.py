@@ -125,7 +125,7 @@ def exit_maintenance_mode(app_name):
 
 
 def main():
-    print("\nPlease type in the heroku redis details below:")
+    print("\nPlease type in the heroku postgres database details below:")
     app_name = input("App Name: ") #Heroku App Name e.g Staging 1
     old_db_url = input("Old DB Add On Name: ") # Heroku Old DB Add on Name e.g beautiful_moose
     current_db_version = input("Current DB Version: ") #Specify current db version. Please specify your current db version
