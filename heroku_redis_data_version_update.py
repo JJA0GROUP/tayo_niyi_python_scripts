@@ -33,9 +33,10 @@ def resume_normal_operation(app_name):
     run_heroku_command(command)
 
 def main():
-    app_name = "APP_NAME"
-    version = "NEW_REDIS_VERSION"
-    add_on_name = "ADD_ON_NAME"
+    print("\nPlease type in the heroku redis details below:")
+    app_name = input("App Name: ") #Heroku App Name e.g Staging 1
+    version = input("New Redis Version: ") # Heroku New Redis Add On Version e.g 6.1.0
+    add_on_name = input("Add On Name: ") # Heroku Redis Add on Name e.g beautiful_moose
 
     print("Step 1: Putting app in maintenance mode before upgrade")
     maintenance_mode(app_name)
