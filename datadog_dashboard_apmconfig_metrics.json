@@ -1,0 +1,199 @@
+{
+    "title": "Comprehensive Reforge Ruby App APM Dashboard",
+    "widgets": [
+      {
+        "definition": {
+          "type": "timeseries",
+          "requests": [
+            {
+              "q": "avg:trace.rack.request.duration{*} by {service}",
+              "display_type": "line",
+              "style": {
+                "palette": "dog_classic",
+                "type": "solid",
+                "width": "normal"
+              }
+            }
+          ],
+          "title": "Average Request Duration by Service"
+        }
+      },
+      {
+        "definition": {
+          "type": "query_value",
+          "requests": [
+            {
+              "q": "avg:trace.rack.request.errors{*}",
+              "aggregator": "avg",
+              "conditional_formats": []
+            }
+          ],
+          "title": "Average Request Errors"
+        }
+      },
+      {
+        "definition": {
+          "type": "query_value",
+          "requests": [
+            {
+              "q": "avg:trace.rack.request.hits{*}",
+              "aggregator": "avg",
+              "conditional_formats": []
+            }
+          ],
+          "title": "Average Request Hits"
+        }
+      },
+      {
+        "definition": {
+          "type": "timeseries",
+          "requests": [
+            {
+              "q": "sum:trace.rack.request.duration{*} by {service}",
+              "display_type": "bars",
+              "style": {
+                "palette": "dog_classic",
+                "type": "solid",
+                "width": "normal"
+              }
+            }
+          ],
+          "title": "Total Request Duration by Service"
+        }
+      },
+      {
+        "definition": {
+          "type": "timeseries",
+          "requests": [
+            {
+              "q": "apdex:trace.rack.request.duration{*} by {service}",
+              "display_type": "line",
+              "style": {
+                "palette": "dog_classic",
+                "type": "solid",
+                "width": "normal"
+              }
+            }
+          ],
+          "title": "Apdex Score by Service"
+        }
+      },
+      {
+        "definition": {
+          "type": "timeseries",
+          "requests": [
+            {
+              "q": "sum:trace.rack.request.errors{*} by {service}",
+              "display_type": "line",
+              "style": {
+                "palette": "dog_classic",
+                "type": "solid",
+                "width": "normal"
+              }
+            }
+          ],
+          "title": "Error Rates by Service"
+        }
+      },
+      {
+        "definition": {
+          "type": "timeseries",
+          "requests": [
+            {
+              "q": "sum:trace.rack.request.hits{*} by {service}",
+              "display_type": "line",
+              "style": {
+                "palette": "dog_classic",
+                "type": "solid",
+                "width": "normal"
+              }
+            }
+          ],
+          "title": "Throughput by Service"
+        }
+      },
+      {
+        "definition": {
+          "type": "timeseries",
+          "requests": [
+            {
+              "q": "avg:trace.postgres.query.duration{*} by {service}",
+              "display_type": "line",
+              "style": {
+                "palette": "dog_classic",
+                "type": "solid",
+                "width": "normal"
+              }
+            }
+          ],
+          "title": "Database Query Performance"
+        }
+      },
+      {
+        "definition": {
+          "type": "query_value",
+          "requests": [
+            {
+              "q": "avg:system.mem.used{*}",
+              "aggregator": "avg",
+              "conditional_formats": []
+            }
+          ],
+          "title": "Average Memory Usage"
+        }
+      },
+      {
+        "definition": {
+          "type": "timeseries",
+          "requests": [
+            {
+              "q": "avg:system.cpu.user{*}",
+              "display_type": "line",
+              "style": {
+                "palette": "dog_classic",
+                "type": "solid",
+                "width": "normal"
+              }
+            }
+          ],
+          "title": "CPU Usage Over Time"
+        }
+      },
+      {
+        "definition": {
+          "type": "query_value",
+          "requests": [
+            {
+              "q": "sum:trace.web.request.count{*} by {service}",
+              "aggregator": "sum",
+              "conditional_formats": []
+            }
+          ],
+          "title": "Active User Sessions"
+        }
+      },
+      {
+        "definition": {
+          "type": "timeseries",
+          "requests": [
+            {
+              "q": "sum:custom.metric.name{*} by {service}",
+              "display_type": "line",
+              "style": {
+                "palette": "dog_classic",
+                "type": "solid",
+                "width": "normal"
+              }
+            }
+          ],
+          "title": "Custom Business Metric"
+        }
+      }
+    ],
+    "layout_type": "ordered",
+    "is_read_only": false,
+    "notify_list": [],
+    "template_variables": [],
+    "description": "A comprehensive dashboard to monitor the APM metrics for Reforge Ruby application."
+  }
+  
